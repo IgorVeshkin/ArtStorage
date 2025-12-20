@@ -1,0 +1,1 @@
+export const LICENSE_KEY = process.env.REACT_APP_MUI_LICENSE_KEY;
