@@ -31,7 +31,6 @@ class ImagesSerializer(serializers.ModelSerializer):
         representation = super(ImagesSerializer, self).to_representation(instance)
         representation['create_date'] = instance.create_date.strftime('%d/%m/%Y %H:%M:%S')
         representation['update_date'] = instance.update_date.strftime('%d/%m/%Y %H:%M:%S')
-        # representation["likes"] = instance.get_likes_count()
 
         request = self.context.get('request', None)
         current_user = request.user if request else None
