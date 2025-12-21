@@ -24,6 +24,7 @@ class ImagesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image
         exclude = ("likes",)
+        ordering = ('-id',)
 
     # Модицикация значений полей
     def to_representation(self, instance):

@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_401_UNAUTHORIZED
 from rest_framework.views import APIView
@@ -43,30 +44,27 @@ class SpecificImageResponse(APIView):
 
 class LikesManagement(APIView):
 
+    permission_classes = (IsAuthenticated,)
+
     def put(self, request, image_uuid):
 
-        if request.user.is_authenticated:
-            current_image = get_object_or_404(Image, uuid=image_uuid)
+        current_image = get_object_or_404(Image, uuid=image_uuid)
 
-            if current_image.likes.filter(id=request.user.id):
-                current_image.likes.remove(request.user)
-                print("here 1")
-            else:
-                current_image.likes.add(request.user)
-                print("here 2")
-
-            return Response({
-
-                              "message": "Внимание: Успешно оставили/убрали лайк изображения",
-
-                              "result": {
-                                  "likesCount": current_image.get_likes_count(),
-                                  "isLiked": current_image.likes.filter(id=request.user.id).exists()
-                              }
-
-                              }, status=HTTP_200_OK)
+        if current_image.likes.filter(id=request.user.id):
+            current_image.likes.remove(request.user)
         else:
-            return Response({ "message": "Ошибка: Неавторизированный пользователь в системе (Код 02)" }, status=HTTP_401_UNAUTHORIZED)
+            current_image.likes.add(request.user)
+
+        return Response({
+
+                          "message": "Внимание: Успешно оставили/убрали лайк изображения",
+
+                          "result": {
+                              "likesCount": current_image.get_likes_count(),
+                              "isLiked": current_image.likes.filter(id=request.user.id).exists()
+                          }
+
+                          }, status=HTTP_200_OK)
 
 
 
