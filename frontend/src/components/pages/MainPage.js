@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import Stack from "@mui/material/Stack";
 import Pagination from "@mui/material/Pagination";
 import CircularProgress from "@mui/material/CircularProgress";
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
@@ -141,9 +142,14 @@ function MainPage() {
                             imagesList.map((record, index) => {
 
                                 return (
-                                <Link to={record.originURL} key={ record.uuid }>
+                                <Link to={record.originURL} key={ record.uuid } style={{ textDecoration: "none", color: "inherit", }}>
                                        <Box className="image-item">
                                            <img src={ record.image } style={{ width: "100%", height: "100%", objectFit: "contain", }} />
+
+                                          <Stack direction="row" spacing={0.5}>
+                                            <Typography variant="body1" color="textPrimary" >{ record.likes.likesCount }</Typography>
+                                            <FavoriteIcon color="error" />
+                                          </Stack>
                                        </Box>
                                 </Link>
 
