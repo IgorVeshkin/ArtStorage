@@ -24,13 +24,15 @@ class ImagesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image
         exclude = ("likes",)
-        ordering = ('-id',)
+        ordering = ("-id",)
 
     # Модицикация значений полей
     def to_representation(self, instance):
         representation = super(ImagesSerializer, self).to_representation(instance)
         representation['create_date'] = instance.create_date.strftime('%d/%m/%Y %H:%M:%S')
         representation['update_date'] = instance.update_date.strftime('%d/%m/%Y %H:%M:%S')
+
+        representation["tags"] = [{ "tag_uuid": tag.uuid, "tag_name": f"{tag.title} ({tag.get_image_records_count()})" } for tag in instance.tags.all()]
 
         request = self.context.get('request', None)
         current_user = request.user if request else None

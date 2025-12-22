@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from backend.models import CustomUser, Role, Image
+from backend.models import CustomUser, Role, Image, Tag
 
 
 # Register your models here.
@@ -56,3 +56,8 @@ class RoleAdmin(admin.ModelAdmin):
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
     list_display = ('image', 'loaded_by', 'originURL', 'create_date', 'update_date',)
+
+
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    list_display = ('title', 'creator', 'create_date',)
