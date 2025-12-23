@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'backend.apps.BackendConfig',
     'frontend.apps.FrontendConfig',
+    "django_filters",
 ]
 
 MIDDLEWARE = [
@@ -83,6 +84,12 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+}
+
+REST_FRAMEWORK = {
+    "DEFAULT_FILTER_BACKEND": [
+        "django_filters.rest_framework.DjangoFilterBackend"
+    ]
 }
 
 

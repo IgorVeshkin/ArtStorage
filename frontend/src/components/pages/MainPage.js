@@ -22,6 +22,7 @@ function MainPage() {
 
     const queryParams = new URLSearchParams(location.search);
     const pageNumber = parseInt(queryParams.get("page")) || 1;
+    const tagsParam = queryParams.get("tags") || null;
 
     const [message, setMessage] = useState('Сообщение не было получено!');
     const [imagesList, setImagesList] = useState([]);
@@ -30,6 +31,7 @@ function MainPage() {
     const [page, setPage] = useState(pageNumber);
     const [imageCount, setImageCount] = useState(0);
     const [pageSize, setPageSize] = useState(5);
+    const [tags, setTags] = useState(tagsParam);
 
     // Нужно для отправки запросом на сервер (кроме GET, он и без этого работает)
     axios.defaults.xsrfCookieName = 'csrftoken';
@@ -49,7 +51,7 @@ function MainPage() {
 
         try {
 
-            const response = await axios.get("/api/get-images/?current_page=" + pageNumber);
+            const response = await axios.get("/api/get-images/?current_page=" + pageNumber + (tags ? "&tags=" + tags : ""));
 
             setImagesList(response.data.result);
             setImageCount(response.data.totalCount);
@@ -75,7 +77,7 @@ function MainPage() {
             setMessage(response.data.message);
         })
 
-        axios.get("/api/get-images/?current_page=" + page).then(response => {
+        axios.get("/api/get-images/?current_page=" + page + (tags ? "&tags=" + tags : "")).then(response => {
             setImagesList(response.data.result);
             setPageSize(response.data.pageSize);
             setImageCount(response.data.totalCount);

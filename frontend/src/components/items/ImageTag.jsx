@@ -23,7 +23,7 @@ const ImageTag = ({ tag_uuid, tag_name }) => {
     return (
             <Box sx={{ backgroundColor: tagColorRef.current, borderRadius: "10px", px: 1.5, py: 0.5, }}>
 
-                <Link to={"/?page=1&tag=" + tag_uuid} style={{ textDecoration: "none", color: "inherit", }}><Typography variant="body1"> {tag_name} </Typography></Link>
+                <Link to={"/?page=1&tags=" + tag_uuid} style={{ textDecoration: "none", color: "inherit", }}><Typography variant="body1"> {tag_name} </Typography></Link>
 
             </Box>
     );
