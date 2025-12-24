@@ -21,17 +21,14 @@ function MainPage() {
     const navigate = useNavigate();
 
     const queryParams = new URLSearchParams(location.search);
-    const pageNumber = parseInt(queryParams.get("page")) || 1;
-    const tagsParam = queryParams.get("tags") || null;
 
     const [message, setMessage] = useState('Сообщение не было получено!');
     const [imagesList, setImagesList] = useState([]);
     const [isImageLoading, setIsImageLoading] = useState(true);
 
-    const [page, setPage] = useState(pageNumber);
+    const [page, setPage] = useState(parseInt(queryParams.get("page")) || 1);
     const [imageCount, setImageCount] = useState(0);
     const [pageSize, setPageSize] = useState(5);
-    const [tags, setTags] = useState(tagsParam);
 
     // Нужно для отправки запросом на сервер (кроме GET, он и без этого работает)
     axios.defaults.xsrfCookieName = 'csrftoken';
@@ -42,6 +39,8 @@ function MainPage() {
 
         setPage(value);
 
+        queryParams.set("page", value);
+
     }
 
 
@@ -51,7 +50,7 @@ function MainPage() {
 
         try {
 
-            const response = await axios.get("/api/get-images/?current_page=" + pageNumber + (tags ? "&tags=" + tags : ""));
+            const response = await axios.get("/api/get-images/?" + queryParams.toString());
 
             setImagesList(response.data.result);
             setImageCount(response.data.totalCount);
@@ -77,25 +76,15 @@ function MainPage() {
             setMessage(response.data.message);
         })
 
-        axios.get("/api/get-images/?current_page=" + page + (tags ? "&tags=" + tags : "")).then(response => {
-            setImagesList(response.data.result);
-            setPageSize(response.data.pageSize);
-            setImageCount(response.data.totalCount);
-
-            setIsImageLoading(false);
-        })
-
 
     }, []);
 
 
     useEffect(() => {
 
-        const updatedQueryParams = new URLSearchParams(location.search);
+        queryParams.set("page", page);
 
-        updatedQueryParams.set("page", page);
-
-        navigate(`${location.pathname}?${updatedQueryParams.toString()}`)
+        navigate(`${location.pathname}?${queryParams.toString()}`)
 
         fetchImages(page);
 

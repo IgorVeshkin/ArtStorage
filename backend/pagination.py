@@ -6,7 +6,7 @@ from rest_framework.status import HTTP_200_OK
 class ImagesPagePagination(PageNumberPagination):
     page_size = 2
     page_size_query_param = "page_size"
-    page_query_param = "current_page"
+    page_query_param = "page"
     max_page_size = 100
 
     def get_paginated_response(self, data):

@@ -21,6 +21,7 @@ class BasicResponse(APIView):
 
         return Response({'message': 'If you see this message than everything works correct!'})
 
+
 class ImagesResponse(APIView):
     queryset = Image.objects.all()
     pagination_class = ImagesPagePagination
