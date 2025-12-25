@@ -1,8 +1,10 @@
 import uuid
 
-from django.core.validators import URLValidator
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.utils.text import slugify
+
 
 # Create your models here.
 
@@ -21,6 +23,7 @@ class Role(models.Model):
 
 def set_default_role():
     return Role.objects.get(name="Базовый пользователь")
+
 
 class CustomUser(AbstractUser):
     role = models.ForeignKey('Role', verbose_name="Роль", on_delete=models.SET(set_default_role), related_name='users', blank=True, null=True)
@@ -61,12 +64,21 @@ class Image(models.Model):
 
 class Tag(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    title = models.CharField(max_length=255, blank=False, null=False, verbose_name="Название")
+    title = models.CharField(max_length=255, unique=True, blank=False, null=False, verbose_name="Название")
+    title_slug = models.SlugField(max_length=255, unique=True, blank=True, verbose_name="Название (URL)")
     creator = models.ForeignKey(CustomUser, verbose_name="Создал", on_delete=models.SET_NULL, blank=True, null=True)
     create_date = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
 
     def get_image_records_count(self):
         return self.image_tags.count()
+
+    def save(self, *args, **kwargs):
+
+        if not self.title_slug:
+            self.title_slug = slugify(self.title)
+
+        super().save(*args, **kwargs)
+
 
     def __str__(self):
         return f'{self.title} ({self.get_image_records_count()})'

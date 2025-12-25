@@ -60,4 +60,5 @@ class ImageAdmin(admin.ModelAdmin):
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
-    list_display = ('title', 'creator', 'create_date',)
+    list_display = ("title", "title_slug", "creator", "create_date",)
+    prepopulated_fields = {"title_slug": ("title",)}
