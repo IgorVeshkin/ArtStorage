@@ -126,7 +126,7 @@ function DetailedPage() {
 
                 imageData.tags?.map((tag,) => {
 
-                    return (<ImageTag tag_uuid={tag.tag_uuid} tag_name={tag.tag_name} key={tag.tag_uuid} />);
+                    return (<ImageTag tag_slug={tag.tag_slug} tag_name={tag.tag_name} key={tag.tag_uuid} />);
 
                     }
                 )

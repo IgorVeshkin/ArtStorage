@@ -26,13 +26,13 @@ class ImagesSerializer(serializers.ModelSerializer):
         exclude = ("likes",)
         ordering = ("-id",)
 
-    # Модицикация значений полей
+    # Модификация значений полей
     def to_representation(self, instance):
         representation = super(ImagesSerializer, self).to_representation(instance)
         representation['create_date'] = instance.create_date.strftime('%d/%m/%Y %H:%M:%S')
         representation['update_date'] = instance.update_date.strftime('%d/%m/%Y %H:%M:%S')
 
-        representation["tags"] = [{ "tag_uuid": tag.uuid, "tag_name": f"{tag.title} ({tag.get_image_records_count()})" } for tag in instance.tags.all()]
+        representation["tags"] = [{ "tag_uuid": tag.uuid, "tag_name": f"{tag.title} ({tag.get_image_records_count()})", "tag_slug": f"{tag.title_slug}" } for tag in instance.tags.all()]
 
         request = self.context.get('request', None)
         current_user = request.user if request else None

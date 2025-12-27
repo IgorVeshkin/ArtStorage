@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 
 import { Link } from "react-router-dom";
 
-const ImageTag = ({ tag_uuid, tag_name }) => {
+const ImageTag = ({ tag_slug, tag_name }) => {
 
     const tagColors = ["#D1E7DD", "#FFF3CD", "#CFE2FF", "#F8D7DA"];
 
@@ -23,7 +23,7 @@ const ImageTag = ({ tag_uuid, tag_name }) => {
     return (
             <Box sx={{ backgroundColor: tagColorRef.current, borderRadius: "10px", px: 1.5, py: 0.5, }}>
 
-                <Link to={"/?page=1&tags=" + tag_uuid} style={{ textDecoration: "none", color: "inherit", }}><Typography variant="body1"> {tag_name} </Typography></Link>
+                <Link to={"/?page=1&tags=" + tag_slug} style={{ textDecoration: "none", color: "inherit", }}><Typography variant="body1"> {tag_name} </Typography></Link>
 
             </Box>
     );
