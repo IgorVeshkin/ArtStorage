@@ -14,6 +14,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import "./MainPage.styles.css";
 
+import ImageTag from "../items/ImageTag.jsx"
+
 
 function MainPage() {
 
@@ -29,6 +31,8 @@ function MainPage() {
     const [page, setPage] = useState(parseInt(queryParams.get("page")) || 1);
     const [imageCount, setImageCount] = useState(0);
     const [pageSize, setPageSize] = useState(5);
+
+    const [tags, setTags] = useState(queryParams.get("tags") || "");
 
     // Нужно для отправки запросом на сервер (кроме GET, он и без этого работает)
     axios.defaults.xsrfCookieName = 'csrftoken';
@@ -50,7 +54,14 @@ function MainPage() {
 
         try {
 
-            const response = await axios.get("/api/get-images/?" + queryParams.toString());
+            const customQueryParams = queryParams;
+
+            // Если переданы параметр "?tags=", то исключаю параметр
+            if (tags === "") {
+                customQueryParams.delete('tags');
+            }
+
+            const response = await axios.get("/api/get-images/?" + customQueryParams.toString());
 
             setImagesList(response.data.result);
             setImageCount(response.data.totalCount);
@@ -94,6 +105,14 @@ function MainPage() {
     return (<>
 
                <Typography variant="h5"> {message} </Typography>
+
+               <Stack direction="row" spacing={2} sx={{ padding: '10px 0 10px 0', }}>
+                { tags != null && tags !== "" && tags.split(",").map((tag,) => {
+
+                        return (<ImageTag tag_slug={tag} tag_name={tag} displayOnly={true} key={"tag_" + tag} />);
+
+                }) }
+               </Stack>
 
                <Stack>
 
