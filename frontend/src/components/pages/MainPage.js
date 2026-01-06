@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import axios from 'axios';
 
@@ -34,6 +34,9 @@ function MainPage() {
 
     const [tags, setTags] = useState(queryParams.get("tags") || "");
 
+    const prevPage = useRef(parseInt(queryParams.get("page")) || 1);
+    const prevTags = useRef(queryParams.get("tags") || "");
+
     // Нужно для отправки запросом на сервер (кроме GET, он и без этого работает)
     axios.defaults.xsrfCookieName = 'csrftoken';
     axios.defaults.xsrfHeaderName = 'X-CSRFToken';
@@ -48,7 +51,7 @@ function MainPage() {
     }
 
 
-    const fetchImages = async (pageNumber) => {
+    const fetchImages = async () => {
 
         setIsImageLoading(true);
 
@@ -58,7 +61,7 @@ function MainPage() {
 
             // Если переданы параметр "?tags=", то исключаю параметр
             if (tags === "") {
-                customQueryParams.delete('tags');
+                customQueryParams.delete("tags");
             }
 
             const response = await axios.get("/api/get-images/?" + customQueryParams.toString());
@@ -93,13 +96,29 @@ function MainPage() {
 
     useEffect(() => {
 
-        queryParams.set("page", page);
+        const pageChanged = prevPage.current !== page;
+        const tagsChanged = prevTags.current !== tags;
 
-        navigate(`${location.pathname}?${queryParams.toString()}`)
+        prevPage.current = page;
+        prevTags.current = tags;
 
-        fetchImages(page);
 
-    }, [page]);
+        if (tagsChanged) {
+
+            queryParams.set('tags', tags);
+            queryParams.set('page', 1);
+
+        } else if (pageChanged) {
+
+            queryParams.set('page', page);
+
+          }
+
+        navigate(`${location.pathname}?${queryParams.toString()}`);
+        fetchImages();
+
+
+    }, [page, tags]);
 
 
     return (<>
@@ -109,7 +128,15 @@ function MainPage() {
                <Stack direction="row" spacing={2} sx={{ padding: '10px 0 10px 0', }}>
                 { tags != null && tags !== "" && tags.split(",").map((tag,) => {
 
-                        return (<ImageTag tag_slug={tag} tag_name={tag} displayOnly={true} key={"tag_" + tag} />);
+                        return (<ImageTag
+                                tag_slug={tag}
+                                tag_name={tag}
+                                displayOnly={true}
+                                queryParamsChangeManager={{
+                                    changeTagsList: setTags,
+                                    changePage: setPage
+                                }}
+                                key={"tag_" + tag} />);
 
                 }) }
                </Stack>

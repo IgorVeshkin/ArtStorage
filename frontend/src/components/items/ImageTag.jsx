@@ -8,7 +8,7 @@ import { IconButton } from '@mui/material';
 
 import { Link } from "react-router-dom";
 
-const ImageTag = ({ tag_slug, tag_name, displayOnly=false }) => {
+const ImageTag = ({ tag_slug, tag_name, displayOnly=false, queryParamsChangeManager }) => {
 
     const tagColors = ["#D1E7DD", "#FFF3CD", "#CFE2FF", "#F8D7DA"];
 
@@ -22,8 +22,20 @@ const ImageTag = ({ tag_slug, tag_name, displayOnly=false }) => {
 
     const tagColorRef = useRef(selectTagColor());
 
+    const { changeTagsList, changePage } = queryParamsChangeManager || {};
+
     const handleDelete = () => {
-        alert("Deleting Tag: " + tag_name);
+
+        if (displayOnly && (!changeTagsList || !changePage)) return;
+
+        const queryParamTag = new URLSearchParams(location.search).get("tags");
+
+        const filteredTags = queryParamTag.split(',').map(item => item.trim()).filter(item => item !== tag_slug && item !== '').join(',');
+        
+        changeTagsList(filteredTags);
+
+        changePage(1);
+
     }
 
     if (displayOnly) {
