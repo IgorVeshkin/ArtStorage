@@ -42,6 +42,15 @@ function MainPage() {
     axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 
 
+    const changeTagsList = (updatedTags) => {
+        setTags(updatedTags);
+    }
+
+    const changePage = (newPage) => {
+        setPage(newPage);
+    }
+
+
     const handlePageChange = (event, value) => {
 
         setPage(value);
@@ -133,8 +142,8 @@ function MainPage() {
                                 tag_name={tag}
                                 displayOnly={true}
                                 queryParamsChangeManager={{
-                                    changeTagsList: setTags,
-                                    changePage: setPage
+                                    changeTagsList: changeTagsList,
+                                    changePage: changePage
                                 }}
                                 key={"tag_" + tag} />);
 
