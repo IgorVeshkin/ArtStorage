@@ -2,15 +2,15 @@ from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.status import HTTP_200_OK, HTTP_401_UNAUTHORIZED
+from rest_framework.status import HTTP_200_OK
 from rest_framework.views import APIView
 
 from .filters import TagFilter
 from .pagination import ImagesPagePagination
 
-from .models import Image
+from .models import Image, Tag
 
-from .serializers import ImagesSerializer
+from .serializers import ImagesSerializer, TagSerializer
 
 
 # Create your views here.
@@ -84,3 +84,22 @@ class UserResponse(APIView):
     def get(self, request):
 
         return Response({"is_auth": not request.user.is_anonymous}, status=HTTP_200_OK)
+
+
+class TagsValidationCheck(APIView):
+
+    def get(self, request):
+
+        found_tags = []
+
+        if "tags" in request.GET:
+
+            tags_slug = request.GET.get("tags").split(",")
+
+            if not tags_slug:
+                Response({"tags": []}, status=HTTP_200_OK)
+
+            found_tags = Tag.objects.filter(title_slug__in=tags_slug)
+
+
+        return Response({"tags": TagSerializer(found_tags, many=True).data}, status=HTTP_200_OK)

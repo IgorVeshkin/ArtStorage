@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import CustomUser, Role, Image
+from .models import CustomUser, Role, Image, Tag
 
 class CustomUserRole(serializers.ModelSerializer):
     class Meta:
@@ -40,3 +40,10 @@ class ImagesSerializer(serializers.ModelSerializer):
         representation["likes"] = {"likesCount": instance.get_likes_count(),
                                   "isLiked": instance.likes.filter(id=current_user.id).exists() if current_user and current_user.is_authenticated else None}
         return representation
+
+
+class TagSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Tag
+        exclude = ("create_date", "creator")

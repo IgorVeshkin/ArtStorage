@@ -14,7 +14,9 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import "./MainPage.styles.css";
 
-import ImageTag from "../items/ImageTag.jsx"
+import ImageTag from "../items/ImageTag.jsx";
+
+import useFetchTags from "../hooks/useFetchTags.jsx";
 
 
 function MainPage() {
@@ -49,6 +51,9 @@ function MainPage() {
     const changePage = (newPage) => {
         setPage(newPage);
     }
+
+
+    const { tagsData, tagsLoading, tagsError } = useFetchTags(queryParams.get("tags") || "");
 
 
     const handlePageChange = (event, value) => {
@@ -135,19 +140,18 @@ function MainPage() {
                <Typography variant="h5"> {message} </Typography>
 
                <Stack direction="row" spacing={2} sx={{ padding: '10px 0 10px 0', }}>
-                { tags != null && tags !== "" && tags.split(",").map((tag,) => {
-
+                   { !tagsLoading && tagsData?.map((tag,) => {
                         return (<ImageTag
-                                tag_slug={tag}
-                                tag_name={tag}
+                                tag_slug={tag.title_slug}
+                                tag_name={tag.title}
                                 displayOnly={true}
                                 queryParamsChangeManager={{
                                     changeTagsList: changeTagsList,
                                     changePage: changePage
                                 }}
-                                key={"tag_" + tag} />);
+                                key={"tag_" + tag.uuid} />);
 
-                }) }
+                   })  }
                </Stack>
 
                <Stack>
