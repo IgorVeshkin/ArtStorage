@@ -53,7 +53,7 @@ function MainPage() {
     }
 
 
-    const { tagsData, tagsLoading, tagsError } = useFetchTags(queryParams.get("tags") || "");
+    const { tagsData, tagsLoading, tagsError } = useFetchTags(queryParams.get("tags") || "", changeTagsList);
 
 
     const handlePageChange = (event, value) => {

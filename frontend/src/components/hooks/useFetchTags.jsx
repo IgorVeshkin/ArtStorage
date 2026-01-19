@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 import axios from 'axios';
 
-const useFetchTags = (tagsSlug) => {
+const useFetchTags = (tagsSlug, changeTagsList) => {
 
     const [tagsData, setTagsData] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -25,6 +25,7 @@ const useFetchTags = (tagsSlug) => {
 
                 setTagsData(receivedTagsData);
 
+                changeTagsList(receivedTagsData.map(tag => tag.title_slug).join(','));
 
             } catch (error) {
 
