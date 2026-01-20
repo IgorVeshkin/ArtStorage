@@ -8,6 +8,7 @@ import LoginPage from "./pages/LoginPage";
 import DetailedPage from "./pages/DetailedPage";
 
 import ProtectedRoute from "./ProtectedRoute.jsx";
+import LoggedUserProtectedRoute from "./LoggedUserProtectedRoute.jsx";
 
 function App() {
     return (
@@ -24,9 +25,13 @@ function App() {
 
                 </Route>
 
-                {/* Логин */}
-                <Route path="login" element={<LoginPage/>} />
+                {/* Защищенные пути, если пользователь авторизирован - Редирект на главную страницу */}
+                <Route element={<LoggedUserProtectedRoute />}>
 
+                    {/* Логин */}
+                    <Route path="login" element={<LoginPage/>} />
+
+                </Route>
 
             </Routes>
         </BrowserRouter>

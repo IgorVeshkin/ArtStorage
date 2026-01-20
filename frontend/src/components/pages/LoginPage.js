@@ -12,7 +12,8 @@ function LoginPage() {
     axios.defaults.xsrfCookieName = 'csrftoken';
     axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 
-    // Выполняется перед загрузкой страницы
+
+    // Выполняется после отрисовки страницы
     useEffect(() => {
 
     }, []);
