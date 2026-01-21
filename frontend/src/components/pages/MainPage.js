@@ -15,6 +15,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./MainPage.styles.css";
 
 import ImageTag from "../items/ImageTag.jsx";
+import TagsAutoComplete from "../items/TagsAutoComplete.jsx";
 
 import useFetchTags from "../hooks/useFetchTags.jsx";
 
@@ -54,6 +55,17 @@ function MainPage() {
 
 
     const { tagsData, tagsLoading, tagsError } = useFetchTags(queryParams.get("tags") || "", changeTagsList);
+
+    // Функция для добавления нового тега на страницу, если его не было раньше
+    const assembleTagsWhileSearching = (newTag) => {
+      const tagsArray = tags ? tags.split(",").map(s => s.trim()).filter(Boolean) : [];
+
+      if (!tagsArray.includes(newTag)) {
+        tagsArray.push(newTag);
+      }
+
+      setTags(tagsArray.join(","));
+}
 
 
     const handlePageChange = (event, value) => {
@@ -138,6 +150,10 @@ function MainPage() {
     return (<>
 
                <Typography variant="h5"> {message} </Typography>
+
+               <Box width={500} sx={{ mt: 2, }}>
+                    <TagsAutoComplete onSelect={assembleTagsWhileSearching} />
+               </Box>
 
                <Stack direction="row" spacing={2} sx={{ padding: '10px 0 10px 0', }}>
                    { !tagsLoading && tagsData?.map((tag,) => {
