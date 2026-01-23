@@ -7,5 +7,6 @@ urlpatterns = [
     path("get-specific-image/<uuid:image_uuid>", SpecificImageResponse.as_view(), name="specific_image_response"),
     path("set-like/<uuid:image_uuid>", LikesManagement.as_view(), name="set_like_response"),
     path("get-user/", UserResponse.as_view(), name="user_response"),
-    path("check-tags-validation/", TagsValidationCheck.as_view(), name="check_tags_validation/"),
+    path("check-tags-validation/", TagsValidationCheck.as_view(), name="check_tags_validation"),
+    path("tag-search/", TagSearch.as_view(), name="tag_search"),
 ]

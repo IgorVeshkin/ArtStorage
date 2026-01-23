@@ -1,7 +1,6 @@
 import django_filters
-import uuid
 
-from .models import Image
+from .models import Image, Tag
 
 
 class MultipleTagFilter(django_filters.CharFilter):
@@ -36,3 +35,14 @@ class TagFilter(django_filters.FilterSet):
     class Meta:
         model = Image
         fields = ["tags"]
+
+
+class TagSearchFilter(django_filters.FilterSet):
+    tag = django_filters.CharFilter(
+        field_name="title_slug",
+        lookup_expr="icontains",
+    )
+
+    class Meta:
+        model = Tag
+        fields = ["title_slug"]

@@ -30,11 +30,11 @@ const TagsAutoComplete = ({ onSelect }) => {
 
             try {
 
-                const response = await axios.get("/api/check-tags-validation/", { //  search-tag-by-title
+                const response = await axios.get("/api/tag-search/", {
                     params: {tags: inputValue},
                 });
 
-                setOptions(response.data.tags);
+                setOptions(response.data.found_matches);
 
             } catch (error) {
 

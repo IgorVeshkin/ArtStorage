@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK
 from rest_framework.views import APIView
 
-from .filters import TagFilter
+from .filters import TagFilter, TagSearchFilter
 from .pagination import ImagesPagePagination
 
 from .models import Image, Tag
@@ -25,7 +25,7 @@ class BasicResponse(APIView):
 class ImagesResponse(APIView):
     queryset = Image.objects.all()
     pagination_class = ImagesPagePagination
-    filter_backend = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend]
     filterset_class = TagFilter
 
     def get(self, request):
@@ -103,3 +103,20 @@ class TagsValidationCheck(APIView):
 
 
         return Response({"tags": TagSerializer(found_tags, many=True).data}, status=HTTP_200_OK)
+
+
+class TagSearch(APIView):
+    queryset = Tag.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = TagSearchFilter
+
+    def get(self, request):
+        filter_instance = self.filterset_class(
+            data=request.query_params,
+            queryset=self.queryset
+        )
+        filtered_queryset = filter_instance.qs
+
+        serializer = TagSerializer(filtered_queryset, many=True, context={'request': request})
+
+        return Response({"found_matches": serializer.data}, status=HTTP_200_OK)
