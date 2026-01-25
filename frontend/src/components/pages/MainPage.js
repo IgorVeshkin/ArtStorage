@@ -75,8 +75,6 @@ function MainPage() {
 
         setPage(value);
 
-        queryParams.set("page", value);
-
     }
 
 
