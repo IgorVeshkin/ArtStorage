@@ -4,6 +4,8 @@ import React, { useState, useEffect } from "react";
 
 import axios from "axios";
 
+import loggedAPI from "./api/axiosInstances";
+
 import CenteredPageSpinner from "./items/CenteredPageSpinner.jsx";
 
 
@@ -14,7 +16,7 @@ const LoggedUserProtectedRoute = ({ Route }) => {
     useEffect(() => {
 
         const getUser = async () => {
-            await axios.get("/api/get-user/").then(response => {
+            await loggedAPI.get("/api/get-user/").then(response => {
 
                 setIsAuth(response.data.is_auth);
 

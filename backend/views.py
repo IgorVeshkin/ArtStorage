@@ -81,6 +81,8 @@ class LikesManagement(APIView):
 
 class UserResponse(APIView):
 
+    permission_classes = (IsAuthenticated,)
+
     def get(self, request):
 
         return Response({"is_auth": not request.user.is_anonymous}, status=HTTP_200_OK)

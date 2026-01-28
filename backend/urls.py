@@ -1,5 +1,9 @@
 from django.urls import path
 from .views import *
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 urlpatterns = [
     path("basic-response/", BasicResponse.as_view(), name="basic_response"),
@@ -9,4 +13,7 @@ urlpatterns = [
     path("get-user/", UserResponse.as_view(), name="user_response"),
     path("check-tags-validation/", TagsValidationCheck.as_view(), name="check_tags_validation"),
     path("tag-search/", TagSearch.as_view(), name="tag_search"),
+
+    path("login/", TokenObtainPairView.as_view(), name="login_by_jwt"),
+    path("refresh-token/", TokenRefreshView.as_view(), name="refresh_token"),
 ]

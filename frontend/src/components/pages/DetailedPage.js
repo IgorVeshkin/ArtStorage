@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 
 import axios from "axios";
 
+import loggedAPI from "../api/axiosInstances";
+
 import { useParams, useNavigate } from "react-router-dom";
 
 // mui-компоненты
@@ -32,10 +34,6 @@ const pageStyles = {
 
 function DetailedPage() {
 
-    // Нужно для отправки запросом на сервер (кроме GET, он и без этого работает)
-    axios.defaults.xsrfCookieName = "csrftoken";
-    axios.defaults.xsrfHeaderName = "X-CSRFToken";
-
     const { record_uuid } = useParams();
 
     const [imageData, setImageData] = useState({});
@@ -56,28 +54,13 @@ function DetailedPage() {
 
     const handleLikeButtonClick = (event) => {
 
-        axios.put("/api/set-like/" + record_uuid).then(response => {
+        loggedAPI.put("/api/set-like/" + record_uuid).then(response => {
             setLikesData(prev => ({...response.data.result}));
         }).catch(error => {
             console.error(error.response.data.message);
         })
 
     }
-
-    /*
-    const tagColors = ["#D1E7DD", "#FFF3CD", "#CFE2FF", "#F8D7DA"];
-
-    const selectTagColor = () => {
-
-        const randomIndex = Math.floor(Math.random() * tagColors.length);
-
-        return tagColors[randomIndex];
-
-    };
-
-    const tagColorRef = useRef(selectTagColor());
-
-    */
 
 
     // Выполняется перед загрузкой страницы

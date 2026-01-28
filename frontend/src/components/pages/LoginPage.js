@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
-import axios from 'axios';
+import { useNavigate } from "react-router-dom";
+
+import loggedAPI from "../api/axiosInstances";
 
 // mui-компоненты
 import Box from '@mui/material/Box';
@@ -11,9 +13,7 @@ import Stack from '@mui/material/Stack';
 
 function LoginPage() {
 
-    // Введение csrf-токена в отправку запросов
-    axios.defaults.xsrfCookieName = 'csrftoken';
-    axios.defaults.xsrfHeaderName = 'X-CSRFToken';
+    const navigate = useNavigate();
 
     const [loginData, setLoginData] = useState({
         username: "",
@@ -25,10 +25,24 @@ function LoginPage() {
     };
 
 
-    const handleLogin = (e,) => {
+    const handleLogin = async (e,) => {
         e.preventDefault();
 
         console.log(loginData);
+
+        try {
+            const tokensData = await loggedAPI.post("api/login/", loginData);
+
+            const tokens = tokensData.data;
+
+            localStorage.setItem("access", tokens.access);
+            localStorage.setItem("refresh", tokens.refresh);
+
+            navigate("/");
+
+        } catch (error) {
+            console.error(error);
+        }
     }
 
 
