@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 
-import axios from "axios";
-
 import loggedAPI from "../api/axiosInstances";
 
 import { useParams, useNavigate } from "react-router-dom";
@@ -66,7 +64,7 @@ function DetailedPage() {
     // Выполняется перед загрузкой страницы
     useEffect(() => {
 
-        axios.get("/api/get-specific-image/" + record_uuid).then(response => {
+        loggedAPI.get("/api/get-specific-image/" + record_uuid).then(response => {
             setImageData(response.data);
             setLikesData(prev => ({...response.data.likes}));
         }).catch(error => {
