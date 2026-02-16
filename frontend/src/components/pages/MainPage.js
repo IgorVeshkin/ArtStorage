@@ -209,15 +209,16 @@ function MainPage() {
                             imagesList.map((record, index) => {
 
                                 return (
-                                <Link to={record.originURL} key={ record.uuid } style={{ textDecoration: "none", color: "inherit", }}>
-                                       <Box className="image-item">
-                                           <img src={ record.image } style={{ width: "100%", height: "100%", objectFit: "contain", }} />
+                                <Link className="image-link-item" to={record.originURL} key={ record.uuid } style={{ textDecoration: "none", color: "inherit", }}>
 
-                                          <Stack direction="row" spacing={0.5}>
+                                       <Box className="image-item">
+                                           <img src={ record.image } />
+                                       </Box>
+
+                                       <Stack className="heart-count-icon" sx={{ justifyContent: "flex-start", }} direction="row" spacing={0.5}>
                                             <Typography variant="body1" color="textPrimary" >{ record.likes.likesCount }</Typography>
                                             <FavoriteIcon color="error" />
-                                          </Stack>
-                                       </Box>
+                                      </Stack>
                                 </Link>
 
                                 )

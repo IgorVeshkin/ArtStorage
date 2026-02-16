@@ -9,26 +9,52 @@
 
 }
 
-.image-item {
+.image-link-item {
 
     display: flex;
-    justify-content: center;
-    align-self: center;
     flex-direction: column;
 
     border: 1px solid lightgray;
     border-radius: 5px;
     padding: 10px;
 
+    width: 400px;
     height: 400px;
+    overflow: hidden;
 
     position: relative;
 
 }
 
-.image-item img {
+.image-item {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    flex: 1;
 
     max-width: 400px;
+    width: 100%;
+
+    height: 350px;
+
+}
+
+.image-item img {
+
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+
+}
+
+.heart-count-icon {
+    display: flex;
+    justify-content: flex-start;
+    align-items: stretch;
+
+    min-height: 25px;
 
 }
 
