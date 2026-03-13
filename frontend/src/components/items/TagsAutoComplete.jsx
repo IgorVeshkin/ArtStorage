@@ -82,10 +82,26 @@ const TagsAutoComplete = ({ onSelect }) => {
                         }
                     }
 
+
+                    sx={{
+
+                        '&.MuiAutocomplete-root': {
+                          width: '100%',
+                        },
+                    }}
+
                     renderInput={(params) => (
                         <TextField
                             {...params}
                             label="Tags search"
+                            className="tag-search-autocomplete"
+                            sx={{
+                              '& input': { fontSize: "1rem" }, // размер шрифта для внутреннего input
+                              '& .MuiInputLabel-root': { fontSize: "1rem" }, // размер шрифта метки, если есть
+                            }}
+                            InputLabelProps={{
+                              style: { fontSize: "1rem" },
+                            }}
                             InputProps={{
                                 ...params.InputProps,
                                 endAdornment: (
@@ -94,6 +110,7 @@ const TagsAutoComplete = ({ onSelect }) => {
                                     { params.InputProps.endAdornment }
                                     </>
                                 ),
+
                             }}
                         />
                     )}

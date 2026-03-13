@@ -40,9 +40,9 @@ const ImageTag = ({ tag_slug, tag_name, displayOnly=false, queryParamsChangeMana
 
     if (displayOnly) {
 
-        return <Box sx={{ display: 'flex', alignItems: 'center', backgroundColor: tagColorRef.current, borderRadius: "10px", pl: 1.5, pr: 1.0, py: 0.5, }}>
+        return <Box className="image-tag-container" sx={{ display: 'flex', alignItems: 'center', backgroundColor: tagColorRef.current, borderRadius: "0.625rem", pl: 1.5, pr: 1.0, py: 0.5, }}>
                     <Box style={{ textDecoration: "none", color: "inherit", }}>
-                        <Typography variant="body1"> {tag_name} </Typography>
+                        <Typography fontSize="inherit" variant="body1"> {tag_name} </Typography>
                     </Box>
 
                     <IconButton
@@ -50,14 +50,14 @@ const ImageTag = ({ tag_slug, tag_name, displayOnly=false, queryParamsChangeMana
                         sx={{ marginLeft: 0.5, p: 0, }}
                         onClick={handleDelete}
                     >
-                        <CloseIcon fontSize="small" />
+                        <CloseIcon fontSize="inherit" />
                     </IconButton>
                 </Box>
 
         }
 
     return (
-            <Box sx={{ backgroundColor: tagColorRef.current, borderRadius: "10px", px: 1.5, py: 0.5, }}>
+            <Box sx={{ backgroundColor: tagColorRef.current, borderRadius: "0.625rem", px: 1.5, py: 0.5, }}>
 
                 <Link to={"/?page=1&tags=" + tag_slug} style={{ textDecoration: "none", color: "inherit", }}>
                     <Typography variant="body1"> {tag_name} </Typography>

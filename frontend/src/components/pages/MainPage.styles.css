@@ -1,58 +1,17 @@
-.images-container {
-
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    align-items: center;
-    align-content: center;
-    gap: 5rem;
-
+/* Variables */
+:root {
+    --text-color: #ffffff;
+    --background-color: #e7e6e7;
+    --additional-background-color: #4e586e;
+    --primary-color: #3b7b9a;
 }
 
-.image-link-item {
-
-    display: flex;
-    flex-direction: column;
-
-    border: 1px solid lightgray;
-    border-radius: 5px;
-    padding: 10px;
-
-    width: 400px;
-    height: 400px;
-    overflow: hidden;
-
-    position: relative;
-
-}
-
-.image-item {
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    flex: 1;
-
-    max-width: 400px;
-    width: 100%;
-
-    height: 350px;
-
-}
-
-.image-item img {
-
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-
+.tag-search-auto-complete-box {
+    padding: 0 1rem;
 }
 
 .heart-count-icon {
-    justify-content: flex-start;
-    align-items: stretch;
-
+    padding: 0 10px;
     min-height: 25px;
 
 }
@@ -61,4 +20,85 @@
 .empty-image {
     width: 400px;
     height: 0;
+}
+
+
+.main-container {
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.img-container-wrapper {
+
+    display: flex;
+    flex-direction: column;
+
+    flex: 1;
+}
+
+.img-container {
+
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(18.75rem, 1fr)); /* 12.5rem, 1fr */
+    justify-content: center;
+    gap: 4rem;
+    padding: 0 1rem;
+
+    align-content: start;
+
+    flex: 1;
+
+}
+
+.img-link-item {
+
+    border: 1px solid lightgray;
+    border-radius: 5px;
+
+    overflow: hidden;
+
+    position: relative;
+
+}
+
+.img-link-item img {
+
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+}
+
+.heart-count-img-icon {
+
+    display: flex;
+    gap: 5px;
+
+    color: var(--text-color);
+    background-color: rgb(231, 230, 231, 0.5);
+    backdrop-filter: blur(2px);
+
+    padding: 5px 10px;
+    border-radius: 5px;
+
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+
+}
+
+/* if current screen width more than 975px when use fixed with for grid items (if less than 975px when starts to scale size of items) */
+@media (min-width: 975px) {
+    .img-container {
+
+        display: grid;
+        grid-template-columns: repeat(auto-fit, 25rem); /* 25rem = 400px */
+        grid-template-rows: repeat(auto-fit, 21.875rem);
+        justify-content: center;
+        gap: 4rem;
+
+    }
+
 }

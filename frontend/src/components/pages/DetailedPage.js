@@ -17,6 +17,8 @@ import Alert from '@mui/material/Alert';
 
 import ImageTag from "../items/ImageTag.jsx"
 
+import "./DetailedPage.styles.css";
+
 
 const pageStyles = {
 
@@ -24,7 +26,7 @@ const pageStyles = {
         display: "flex",
         flexDirection: "column",
         alignItems: "flex-start",
-        m: 2,
+        mx: 2,
         gap: 2,
     }
 
@@ -97,9 +99,10 @@ function DetailedPage() {
 
     return (<>
 
-        <Typography variant="h5">Страница детального просмотра изображений</Typography>
-
         <Box sx={ pageStyles.wrapper }>
+
+            <Typography variant="h5">Страница детального просмотра изображений</Typography>
+
             <Button
               variant="contained"
               startIcon={<ArrowBackIcon />}
@@ -135,7 +138,9 @@ function DetailedPage() {
             </Stack>
 
 
-            <img src={ imageData.image } />
+            <Box className="detailed-image-wrapper">
+                <img className="detailed-page-image" src={ imageData.image } />
+            </Box>
         </Box>
 
     </>);

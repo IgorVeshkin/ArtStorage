@@ -53,7 +53,7 @@ function LoginPage() {
 
             sx={{
                 gap: 2,
-                width: 400,
+                width: "25rem",
                 padding: 2,
                 boxShadow: 3,
                 borderRadius: 2,

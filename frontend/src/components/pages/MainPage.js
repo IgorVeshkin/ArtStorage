@@ -148,15 +148,13 @@ function MainPage() {
     }, [page, tags]);
 
 
-    return (<>
+    return (<Box className="main-container">
 
-               <Typography variant="h5"> {message} </Typography>
-
-               <Box width={500} sx={{ mt: 2, }}>
+               <Box className="tag-search-auto-complete-box" sx={{ mt: 2, }}>
                     <TagsAutoComplete onSelect={assembleTagsWhileSearching} />
                </Box>
 
-               <Stack direction="row" spacing={2} sx={{ padding: '10px 0 10px 0', }}>
+               <Stack direction="row" spacing={2} sx={{ padding: '1rem 0 1rem 1rem', }}>
                    { !tagsLoading && tagsData?.map((tag,) => {
                         return (<ImageTag
                                 tag_slug={tag.title_slug}
@@ -171,28 +169,28 @@ function MainPage() {
                    })  }
                </Stack>
 
-               <Stack>
+               <Box className="img-container-wrapper">
 
-                    { isImageLoading ? <CircularProgress /> :
+                    <Box className="img-container">
+                       { isImageLoading ? <CircularProgress /> :
+                                imagesList.map((record, index) => {
 
-                        imagesList.map((record, index) => {
+                                    return (
+                                    <Link className="img-link-item" to={record.originURL} key={ record.uuid } style={{ textDecoration: "none", color: "inherit", }}>
 
-                            return (
-                                <Box sx={{  }} key={record.uuid} >
-                                    <Typography variant='body1'>Uploaded by: {record.loaded_by.username}</Typography>
-                                    <Typography variant='body1'>Uploaded at: {record.create_date}</Typography>
-                                    <Typography variant='body1'>Likes: {record.likes.likesCount}</Typography>
+                                           <img src={ record.image } />
 
-                                    <Link to={record.originURL}>
-                                        <img src={record.image} style={{ width: '400px', }} />
+                                           <Box className="heart-count-img-icon">
+                                                <Typography variant="body1" color="textPrimary" >{ record.likes.likesCount }</Typography>
+                                                <FavoriteIcon color="error" />
+                                          </Box>
                                     </Link>
 
-                                </Box>
-                            )
+                                    )
 
-                        })
-
-                    }
+                                })
+                       }
+                    </Box>
 
 
                     <Pagination
@@ -200,45 +198,12 @@ function MainPage() {
                         page={page}
                         onChange={handlePageChange}
                         color="primary"
+                        sx={{ my: 1, }}
                     />
-
-               </Stack>
-
-               <Box className="images-container" sx={{ width: '90%' }}>
-                   { isImageLoading ? <CircularProgress /> :
-                            imagesList.map((record, index) => {
-
-                                return (
-                                <Link className="image-link-item" to={record.originURL} key={ record.uuid } style={{ textDecoration: "none", color: "inherit", }}>
-
-                                       <Box className="image-item">
-                                           <img src={ record.image } />
-                                       </Box>
-
-                                       <Stack className="heart-count-icon" sx={{ justifyContent: "flex-start", }} direction="row" spacing={0.5}>
-                                            <Typography variant="body1" color="textPrimary" >{ record.likes.likesCount }</Typography>
-                                            <FavoriteIcon color="error" />
-                                      </Stack>
-                                </Link>
-
-                                )
-
-                            })
-                   }
-
-                   <Box className="empty-image" key="empty-image-1">
-                   </Box>
-
-                   <Box className="empty-image" key="empty-image-2">
-                   </Box>
-
-                   <Box className="empty-image" key="empty-image-3">
-                   </Box>
-
 
                </Box>
 
-    </>);
+    </Box>);
 
 }
 
