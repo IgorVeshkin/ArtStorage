@@ -47,3 +47,11 @@ class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
         exclude = ("create_date", "creator")
+
+    def to_representation(self, instance):
+
+        representation = super(TagSerializer, self).to_representation(instance)
+
+        representation["records_count"] = instance.get_image_records_count()
+
+        return representation

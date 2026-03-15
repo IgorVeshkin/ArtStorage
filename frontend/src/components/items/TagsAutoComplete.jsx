@@ -59,6 +59,11 @@ const TagsAutoComplete = ({ onSelect }) => {
     return (<Autocomplete
                     options={ options }
                     getOptionLabel={ (option) => option?.title || "" }
+                    renderOption={(props, option) => (
+                        <li {...props}>
+                          {option.title} ({option.records_count})
+                        </li>
+                    )}
                     loading={loading}
                     inputValue={inputValue}
                     value={selectedOption}
@@ -94,7 +99,6 @@ const TagsAutoComplete = ({ onSelect }) => {
                         <TextField
                             {...params}
                             label="Tags search"
-                            className="tag-search-autocomplete"
                             sx={{
                               '& input': { fontSize: "1rem" }, // размер шрифта для внутреннего input
                               '& .MuiInputLabel-root': { fontSize: "1rem" }, // размер шрифта метки, если есть
