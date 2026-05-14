@@ -14,8 +14,6 @@ from .serializers import ImagesSerializer, TagSerializer
 
 from django.http import FileResponse
 
-# from transliterate import translit
-
 import os
 
 
