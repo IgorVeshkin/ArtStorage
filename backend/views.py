@@ -12,6 +12,12 @@ from .models import Image, Tag
 
 from .serializers import ImagesSerializer, TagSerializer
 
+from django.http import FileResponse
+
+# from transliterate import translit
+
+import os
+
 
 # Create your views here.
 
@@ -120,3 +126,17 @@ class TagSearch(APIView):
         serializer = TagSerializer(filtered_queryset, many=True, context={'request': request})
 
         return Response({"found_matches": serializer.data}, status=HTTP_200_OK)
+
+
+class ImageDownload(APIView):
+
+    def get(self, request, image_uuid):
+        current_image = get_object_or_404(Image, uuid=image_uuid)
+
+        response = FileResponse(current_image.image)
+
+        response["Content-Disposition"] = (
+            f'attachment; filename="{os.path.basename(current_image.image.url)}"'
+        )
+
+        return response

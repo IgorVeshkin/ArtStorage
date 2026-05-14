@@ -14,6 +14,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Stack from "@mui/material/Stack";
 import Alert from '@mui/material/Alert';
+import DownloadIcon from '@mui/icons-material/Download';
 
 import ImageTag from "../items/ImageTag.jsx"
 
@@ -82,6 +83,35 @@ function DetailedPage() {
     */
 
 
+    const handleImageDownload = async (e) => {
+        try {
+            const response = await axios.get("/api/download-image/" + record_uuid, { responseType: "blob" })
+
+            if (response.status >= 200 && response.status < 300) {
+                
+                const blobObject = URL.createObjectURL(response.data);
+                
+                const tempLinkObject = document.createElement("a");
+                tempLinkObject.href = blobObject;
+                
+                const filename = response.headers.get("content-disposition").split(';')[1].split('=')[1].replace(/['"]+/g, '');
+                tempLinkObject.setAttribute("download", filename);
+
+                document.body.appendChild(tempLinkObject);
+                tempLinkObject.click();
+                document.body.removeChild(tempLinkObject);
+
+                URL.revokeObjectURL(blobObject);
+
+            }
+
+        } catch (error) {
+            console.log("Downloading error: " + error)
+        } 
+
+    }
+
+
     // Выполняется перед загрузкой страницы
     useEffect(() => {
 
@@ -109,6 +139,15 @@ function DetailedPage() {
               onClick={handleReturnBackClick}
             >
               Назад
+            </Button>
+
+            <Button
+                startIcon={<DownloadIcon />}
+                variant="contained"
+                color="primary"
+                onClick={handleImageDownload}
+            >
+                Скачать
             </Button>
 
             <Box sx={{ display: "flex", alignItems: "center", gap: "2", }}>
@@ -139,7 +178,7 @@ function DetailedPage() {
 
 
             <Box className="detailed-image-wrapper">
-                <img className="detailed-page-image" src={ imageData.image } />
+                <img className="detailed-page-image" style={{ pointerEvents: "none" }} src={ imageData.image } />
             </Box>
         </Box>
 

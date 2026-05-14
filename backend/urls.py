@@ -9,4 +9,5 @@ urlpatterns = [
     path("get-user/", UserResponse.as_view(), name="user_response"),
     path("check-tags-validation/", TagsValidationCheck.as_view(), name="check_tags_validation"),
     path("tag-search/", TagSearch.as_view(), name="tag_search"),
+    path("download-image/<uuid:image_uuid>", ImageDownload.as_view(), name="download_image"),
 ]
